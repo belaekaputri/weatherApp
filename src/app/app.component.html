@@ -1,0 +1,108 @@
+<style>
+  .jumbotron,.card{
+    background-image: url(https://i.pinimg.com/564x/45/83/ee/4583ee1266b78803dc39eedb52d75a3c.jpg);
+    background-size: cover;
+  }
+</style>
+<div class="container" >
+<div class="jumbotron p-4 rounded text-white">
+<h1 class="display-4">Weather App</h1>
+<button class="btn btn-outline-primary text-white w-25 mt-1" (click)="openModel()">Add City</button> 
+<hr class="my-4">
+<div class="input-group mb-3 w-75" [formGroup]="searchForm">
+  <input type="text" class="form-control" placeholder="Country Or City" formControlName="city">
+  <button class="btn btn-outline-primary text-white" (click)="searchWeather()">Search</button>
+</div>
+</div>
+</div>
+ 
+<div class="container  mt-3 b" *ngIf="weather">
+<div class="card mx-auto" style="width: 18rem;" >
+  <div class="card-header text-white">
+    {{weather.city}}
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Suhu: {{weather.temp}} C</li>
+    <li class="list-group-item">Kondisi: {{weather.current_weather}}</li>
+    <li class="list-group-item">Kelembapan: {{weather.humidity}}</li>
+    <li class="list-group-item">AQI Keterangan: {{weather.aqi_description}}</li>
+  </ul>
+</div>
+</div>
+
+
+<div class="container">
+  <div class="row pt-3">
+    <div class="col-6">
+      <h4>List Kota</h4>
+    </div>
+  </div>
+  @if (cityList.length !== 0) {
+  <div class="row">
+    @for (item of cityList; track $index) {
+    <div class="col-3">
+      <div class="card m-1">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-6 ">
+              {{item.city}}
+            </div>
+          </div>
+        </div>
+        <div class="card-body ">
+          <p> {{item.suhu}}</p>
+          <p> {{item.kondisi}}</p>
+          <p> {{item.kelembapan}}</p>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  } @else { 
+    <div class="row">
+      <div class="col-12 p-4 text-center">
+        <p>Tidak Ada Data</p>
+      </div>
+    </div>
+  }
+
+</div>
+
+
+<div class="modal mt-4" id="myModal" #myModal>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body ">
+        <div class="row">
+          <div class="col-12 m-1">
+            <label for="">City</label>
+            <input type="text" [(ngModel)]="cityObj.city" class="form-control" placeholder="Kota">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 m-1">
+            <label for="">Suhu</label>
+            <input type="text" [(ngModel)]="cityObj.suhu" class="form-control" placeholder="Suhu">
+          </div>
+          <div class="col-12 m-1">
+            <label for="">Kondisi</label>
+            <input type="text" [(ngModel)]="cityObj.kondisi" class="form-control" placeholder="Kondisi">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 m-1">
+            <label for="">Kelembapan</label>
+            <input type="text" [(ngModel)]="cityObj.kelembapan" class="form-control" placeholder="Kelembapan">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeModel()">Close</button>
+        @if (cityObj.id ==0) {
+          <button type="button" class="btn btn-primary" (click)="saveCity()">Save</button>
+        }
+       
+      </div>
+    </div>
+  </div>
+</div>
